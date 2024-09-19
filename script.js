@@ -1,10 +1,8 @@
-/* total price - done
-dynamic price updates upon selection - done
+/* 
 function to summarize the order -just need to add extras
-simple validation (min one pizza)
 after "order" a summary is displayed*/
-
-/*error handling - all required fields are filled
+//click pizza, brings up extras menu, then all together into shopping cart
+/*error handling - all required fields are filled -done?
 feedback of invalid inputs or missing selections*/
 
 /*confirmation message when order is placed
@@ -21,9 +19,8 @@ var mediumPrices = 8;
 var largePrices = 12;
 var total = 0;
 var summaryList = document.getElementById("summaryList");
-var priceName = "prices";
-var order = document.getElementById("order");
-var dis = document.getElementById("dis");
+var priceName = "";
+
 var extras = [
   "Extra cheese",
   "Spicy",
@@ -48,23 +45,24 @@ for (var i = 0; i < extras.length; i++) {
 
 //price updater
 var selectedSize = "disabled";
+var priceChange = prices;
 sizeChoice.addEventListener("change", function (event) {
   selectedSize = event.target.value;
-  console.log(selectedSize);
+  //console.log(selectedSize);
   switch (selectedSize) {
     case "medium":
       prices.innerHTML = "\u20ac" + mediumPrices;
-      prices = mediumPrices;
+      priceChange = mediumPrices;
       priceName = "Medium";
       break;
     case "large":
       prices.innerHTML = "\u20ac" + largePrices;
-      prices = largePrices;
+      priceChange = largePrices;
       priceName = "Large";
       break;
     default:
       prices.innerHTML = "\u20ac" + smallPrices;
-      prices = smallPrices;
+      priceChange = smallPrices;
       priceName = "Small";
       break;
   }
@@ -85,15 +83,32 @@ pizzaContainer.addEventListener("click", (event) => {
     return;
   }
   //console.log(event.target.id);
-  if (selectedSize === "disabled") {
+  else if (selectedSize === "disabled") {
     alert("Please select a size");
     return;
   }
-  total += prices;
+  //console.log(priceChange);
+
+  total += priceChange;
   orderSummary(event.target.id);
   price.innerHTML = "\u20ac" + total;
 });
 
-function orderValidation() {}
+var add = document.getElementById("add");
+add.addEventListener("click", orderValidation);
+
+function orderValidation() {
+  let listLenght = document
+    .getElementById("summaryList")
+    .getElementsByTagName("li").length;
+  //console.log(listLenght);
+
+  if (listLenght === 0) {
+    alert("Please put at least one Pizza in the basket");
+  }
+}
+//make order button work and either make a popup or redirect to new page with full order and price
 
 function summary() {}
+
+//get extras into the pizza
