@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="dropdown">
+      <select name="size" id="size">
+        <option value="disabled" id="dis" disabled hidden selected>
+          Select a size
+        </option>
+        <option value="small" id="small">Small</option>
+        <option value="medium" id="medium">Medium</option>
+        <option value="large" id="large">Large</option>
+      </select>
+    </div>
+    <div id="pizzaContainer">
+      <ul id="pizzaList">
+        <li><button id="Pepperoni" class="btn">Pepperoni</button></li>
+        <li><button id="Kebab" class="btn">Kebab</button></li>
+        <li><button id="Mushroom" class="btn">Mushroom</button></li>
+        <li><button id="Seafood" class="btn">Seafood</button></li>
+        <li><button id="Vegetarian" class="btn">Vegatarian</button></li>
+      </ul>
+      <p id="pizzaPrice"></p>
+      <h6>Total</h6>
+      <p id="price"></p>
+    </div>
+    <div class="extras" , id="extras">
+      <ul id="extraMenu"></ul>
+    </div>
+    <textarea
+      id="notes"
+      placeholder="Please enter any extra requests"
+    ></textarea>
+    <button id="order">Order</button>
+    <ul id="summaryList"></ul>
+    <script src="script.js"></script>
+  </body>
+</html>
