@@ -6,17 +6,7 @@
   </head>
 
   <body>
-    <div class="dropdown">
-      <select name="size" id="size">
-        <option value="disabled" id="dis" disabled hidden selected>
-          Select a size
-        </option>
-        <option value="small" id="small">Small</option>
-        <option value="medium" id="medium">Medium</option>
-        <option value="large" id="large">Large</option>
-      </select>
-    </div>
-    <div id="pizzaContainer">
+    <!--<div id="pizzaContainer">
       <ul id="pizzaList">
         <li>
           <button id="Pepperoni" class="btn">Pepperoni</button>
@@ -26,17 +16,46 @@
         <li><button id="Seafood" class="btn">Seafood</button></li>
         <li><button id="Vegetarian" class="btn">Vegatarian</button></li>
       </ul>
+
       <p id="pizzaPrice"></p>
       <h6>Total</h6>
       <p id="price"></p>
+    </div>-->
+    <form id="pizzaSelection">
+      <input type="radio" id="pepperoni" name="pepperoni">
+      <label for="pepperoni">Pepperoni   €</label><span id="price0" class="priceList">14</span><br>
+      <input type="radio" id="kebab" name="kebab">
+      <label for="kebab">Kebab€</label><span id="price1" class="priceList">12</span><br>
+      <input type="radio" id="mushroom" name="mushroom">
+      <label for="mushroom">Murshroom€</label><span id="price2" class="priceList">13</span><br>
+      <input type="radio" id="seafood" name="seafood">
+      <label for="seafood">Seafood€</label><span id="price3" class="priceList">15</span><br>
+      <input type="radio" id="vegetarian" name="vegetarian">
+      <label for="vegetarian">Vegetarian€</label><span id="price4" class="priceList">10</span><br>
+    </form>
+
+    <!--New size input-->
+    <div id="radioContainer">
+    <div>
+      <input type="radio" id="small" class="sizebtn" value="Small">
+      <label for="small">Small -€2</label>
     </div>
-    <div id="extraContainer">
+      <div>
+      <input type="radio" id="med" class="sizebtn" value="Medium" checked>
+      <label for="med">Medium</label>
+    </div>
+    <div>
+      <input type="radio" id="large" class="sizebtn" value="Large">
+      <label for="large">Large +€2</label>
+    </div>
+  
       <span>€1 each</span><br />
 
       <ul id="extraMenu">
         <!--<li>None<input type="checkbox" id="none" /></li>-->
       </ul>
     </div>
+  </div>
     <ul id="buildPizza"></ul>
     <button id="add">Add to basket</button>
     <ul id="shoppingBasket"></ul>
