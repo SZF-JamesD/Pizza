@@ -18,7 +18,9 @@
     </div>
     <div id="pizzaContainer">
       <ul id="pizzaList">
-        <li><input type="checkbox" id="Pepperoni" class="btn">Pepperoni</input></li>
+        <li>
+          <button id="Pepperoni" class="btn">Pepperoni</button>
+        </li>
         <li><button id="Kebab" class="btn">Kebab</button></li>
         <li><button id="Mushroom" class="btn">Mushroom</button></li>
         <li><button id="Seafood" class="btn">Seafood</button></li>
@@ -28,20 +30,22 @@
       <h6>Total</h6>
       <p id="price"></p>
     </div>
-    <div class="extras" , id="extras">
+    <div id="extraContainer">
       <span>€1 each</span><br />
 
       <ul id="extraMenu">
         <!--<li>None<input type="checkbox" id="none" /></li>-->
       </ul>
     </div>
+    <ul id="buildPizza"></ul>
+    <button id="add">Add to basket</button>
+    <ul id="shoppingBasket"></ul>
+    <ul id="summaryList"></ul>
     <textarea
       id="notes"
       placeholder="Please enter any extra requests"
     ></textarea>
-    <button id="add">Add to basket</button>
-    <button id="order">Order</button>
-    <ul id="summaryList"></ul>
+    <button id="order">Complete Order</button>
     <script src="script.js"></script>
   </body>
 </html>

@@ -18,9 +18,10 @@ var smallPrices = 5; //\u20ac
 var mediumPrices = 8;
 var largePrices = 12;
 var total = 0;
-var summaryList = document.getElementById("summaryList");
+var buildPizza = document.getElementById("buildPizza");
+var shoppingBasket = document.getElementById("shoppingBasket");
 var priceName = "";
-const extraClass = document.getElementById("extras");
+
 var extrasMenu = document.getElementById("extraMenu");
 var extras = [
   "Extra cheese",
@@ -67,15 +68,30 @@ sizeChoice.addEventListener("change", function (event) {
       break;
   }
 });
-//on page order summary
-function orderSummary(pizzaName) {
-  order = document.createElement("li");
-  //console.log(pizzaName);
-  order.textContent = priceName + " " + pizzaName;
 
-  summaryList.append(order);
+//create the pizza
+function createPizza(pizzaName) {
+  const extraContainer = document.getElementById("extraContainer");
+  pizza = document.createElement("li");
+
+  pizza.textContent = priceName + " " + pizzaName;
+  console.log(pizza.textContent.length);
+  if (pizza.textContent.length < 1) {
+    extraContainer.addEventListener("click", (event) => {
+      const isButton = event.target.nodeName === "BUTTON";
+      if (!isButton) {
+        return;
+      }
+      //console.log(event.target.id);
+      else if (selectedSize === "disabled") {
+        alert("Please select a size");
+        return;
+      }
+  })
+  buildPizza.append(order);
 }
 
+function shoppingBasket() {}
 //price total
 pizzaContainer.addEventListener("click", (event) => {
   const isButton = event.target.nodeName === "BUTTON";
@@ -93,16 +109,16 @@ pizzaContainer.addEventListener("click", (event) => {
   and new variable for extraprices, or redo first eventlistener.*/
 
   total += priceChange;
-  orderSummary(event.target.id);
+  createPizza(event.target.id);
   price.innerHTML = "\u20ac" + total;
 });
 
-var add = document.getElementById("add");
-add.addEventListener("click", orderValidation);
+var completeOrder = document.getElementById("order");
+completeOrder.addEventListener("click", orderValidation);
 
 function orderValidation() {
   let listLenght = document
-    .getElementById("summaryList")
+    .getElementById("shoppingList")
     .getElementsByTagName("li").length;
   //console.log(listLenght);
 
@@ -112,4 +128,4 @@ function orderValidation() {
 }
 //make order button work and either make a popup or redirect to new page with full order and price
 
-function summary() {}
+//function summary() {}
