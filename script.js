@@ -4,7 +4,7 @@ after "order" a summary is displayed*/
 //click pizza, brings up extras menu, then all together into shopping cart
 /*error handling - all required fields are filled -done?
 feedback of invalid inputs or missing selections*/
-
+//get extras into the pizza
 /*confirmation message when order is placed
 visually highlight selected options*/
 var price = document.getElementById("price"); //price display
@@ -20,7 +20,8 @@ var largePrices = 12;
 var total = 0;
 var summaryList = document.getElementById("summaryList");
 var priceName = "";
-
+const extraClass = document.getElementById("extras");
+var extrasMenu = document.getElementById("extraMenu");
 var extras = [
   "Extra cheese",
   "Spicy",
@@ -32,13 +33,12 @@ var extras = [
   "Egg",
 ];
 
-extrasMenu = document.getElementById("extraMenu");
 //make extra menu
 for (var i = 0; i < extras.length; i++) {
-  boxes = document.createElement("input");
-  boxes.type = "checkbox";
+  boxes = document.createElement("button");
+  //boxes.type = "checkbox";
   listItems = document.createElement("li");
-  listItems.innerHTML = extras[i];
+  boxes.innerHTML = extras[i];
   listItems.appendChild(boxes);
   extrasMenu.append(listItems);
 }
@@ -87,7 +87,10 @@ pizzaContainer.addEventListener("click", (event) => {
     alert("Please select a size");
     return;
   }
+  //if checked, open extras menu that's all buttons.
   //console.log(priceChange);
+  /*either eventlistener to open extras menu on click, 
+  and new variable for extraprices, or redo first eventlistener.*/
 
   total += priceChange;
   orderSummary(event.target.id);
@@ -110,5 +113,3 @@ function orderValidation() {
 //make order button work and either make a popup or redirect to new page with full order and price
 
 function summary() {}
-
-//get extras into the pizza
