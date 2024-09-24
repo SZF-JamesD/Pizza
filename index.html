@@ -6,65 +6,54 @@
   </head>
 
   <body>
-    <!--<div id="pizzaContainer">
-      <ul id="pizzaList">
-        <li>
-          <button id="Pepperoni" class="btn">Pepperoni</button>
-        </li>
-        <li><button id="Kebab" class="btn">Kebab</button></li>
-        <li><button id="Mushroom" class="btn">Mushroom</button></li>
-        <li><button id="Seafood" class="btn">Seafood</button></li>
-        <li><button id="Vegetarian" class="btn">Vegatarian</button></li>
-      </ul>
-
-      <p id="pizzaPrice"></p>
-      <h6>Total</h6>
-      <p id="price"></p>
-    </div>-->
-    <form id="pizzaSelection">
-      <input type="radio" id="pepperoni" name="pepperoni">
-      <label for="pepperoni">Pepperoni   €</label><span id="price0" class="priceList">14</span><br>
-      <input type="radio" id="kebab" name="kebab">
-      <label for="kebab">Kebab€</label><span id="price1" class="priceList">12</span><br>
-      <input type="radio" id="mushroom" name="mushroom">
-      <label for="mushroom">Murshroom€</label><span id="price2" class="priceList">13</span><br>
-      <input type="radio" id="seafood" name="seafood">
-      <label for="seafood">Seafood€</label><span id="price3" class="priceList">15</span><br>
-      <input type="radio" id="vegetarian" name="vegetarian">
-      <label for="vegetarian">Vegetarian€</label><span id="price4" class="priceList">10</span><br>
-    </form>
-
-    <!--New size input-->
-    <div id="radioContainer">
-    <div>
-      <input type="radio" id="small" class="sizebtn" value="Small">
-      <label for="small">Small -€2</label>
-    </div>
-      <div>
-      <input type="radio" id="med" class="sizebtn" value="Medium" checked>
-      <label for="med">Medium</label>
-    </div>
-    <div>
-      <input type="radio" id="large" class="sizebtn" value="Large">
+        <!--New size input-->
+    <div id="radioContainer"> 
+      <input type="radio" id="small" class="sizebtn" name="sizeSelect" value="Small" >
+      <label for="small">Small -€2</label><br>    
+      <input type="radio" id="med" class="sizebtn" name="sizeSelect" value="Medium">
+      <label for="med">Medium</label><br>    
+      <input type="radio" id="large" class="sizebtn" name="sizeSelect" value="Large">
       <label for="large">Large +€2</label>
     </div>
   
-      <span>€1 each</span><br />
+    
+    <form id="pizzaSelection"></form>    
 
+      <h5>Extras - €1 each<h5><br />
       <ul id="extraMenu">
-        <!--<li>None<input type="checkbox" id="none" /></li>-->
       </ul>
     </div>
   </div>
     <ul id="buildPizza"></ul>
-    <button id="add">Add to basket</button>
-    <ul id="shoppingBasket"></ul>
-    <ul id="summaryList"></ul>
     <textarea
       id="notes"
-      placeholder="Please enter any extra requests"
-    ></textarea>
+      placeholder="Please enter any special requests"
+    ></textarea><br>
+    
+    <button id="add">Add to basket</button>
+    
+    <div id="shoppingList">
+    
+      <ul id="orders"></ul>
+    <span id="totalPrice">
+    </span><br>
+
+    
+    <label for="del">Do you want delivery? (+€2)</label>
+    <input type ="checkbox" id ="del" value="del" name ="del"><br>
+    <h4> Delivery Info</h4>
+    <form id="delInfo">
+      <label for="phoneNumber">(Optional) Please enter your phone number: </label>
+      <input type ="tel" id="phoneNumber" name="phone" pattern="[0-9]{4} [0-9]{3} [0-9]{4}"><br>
+      <label for="delAddress">Please enter delivery address: </label>
+      <input type ="address" id="delAddress" name="address"><br>
+      <input type="submit">
+    </form>
+    
     <button id="order">Complete Order</button>
+    
+    </div>
+    
     <script src="script.js"></script>
   </body>
 </html>
