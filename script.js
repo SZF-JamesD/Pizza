@@ -7,21 +7,10 @@ feedback of invalid inputs or missing selections*/
 //get extras into the pizza
 /*confirmation message when order is placed
 visually highlight selected options*/
-var price = document.getElementById("price"); //price display
-var sizeChoice = document.getElementById("size"); //dropdown for size selection
-var small = document.getElementById("small"); //prices for small
-var med = document.getElementById("medium"); //prices for medium
-var large = document.getElementById("large"); //prices for large
-var prices = document.getElementById("pizzaPrice");
-const pizzaContainer = document.getElementById("pizzaContainer");
-var smallPrices = 5; //\u20ac
-var mediumPrices = 8;
-var largePrices = 12;
+const orderButton = document.getElementById("order");
+const deliveryInfo = document.getElementById("delInfo");
 var total = 0;
-var buildPizza = document.getElementById("buildPizza");
-var shoppingBasket = document.getElementById("shoppingBasket");
-var priceName = "";
-
+var totalWithoutDelivery = total;
 var extrasMenu = document.getElementById("extraMenu");
 var extras = [
   "Extra cheese",
@@ -33,99 +22,263 @@ var extras = [
   "Seafood",
   "Egg",
 ];
+let pizzaSelection;
+let buildPizza;
+let ordersList;
+const delivery = document.getElementById("del");
 
-//make extra menu
-for (var i = 0; i < extras.length; i++) {
-  boxes = document.createElement("button");
-  //boxes.type = "checkbox";
-  listItems = document.createElement("li");
-  boxes.innerHTML = extras[i];
-  listItems.appendChild(boxes);
-  extrasMenu.append(listItems);
+const pizzas = [
+  { value: "pepperoni", label: "Pepperoni", price: 14 },
+  { value: "kebab", label: "Kebab", price: 12 },
+  { value: "mushroom", label: "Mushroom", price: 13 },
+  { value: "seafood", label: "Seafood", price: 15 },
+  { value: "vegetarian", label: "Vegetarian", price: 10 },
+];
+
+function createMenu() {
+  pizzaSelection = document.getElementById("pizzaSelection");
+
+  pizzas.forEach((pizza) => {
+    const pizzaLabel = document.createElement("label");
+
+    const pizzaInput = document.createElement("input");
+    pizzaInput.type = "radio";
+    pizzaInput.name = "pizza";
+    pizzaInput.value = pizza.value;
+    //console.log(pizza.value);
+    const pizzaPriceDisplay = document.createElement("span");
+    pizzaPriceDisplay.className = "priceList";
+    pizzaPriceDisplay.textContent = pizza.price;
+    //console.log(pizza.price);
+    pizzaLabel.appendChild(pizzaInput);
+    //console.log(pizzaLabel);
+    pizzaLabel.appendChild(document.createTextNode(`${pizza.label} €`));
+    pizzaLabel.appendChild(pizzaPriceDisplay);
+
+    pizzaSelection.appendChild(pizzaLabel);
+
+    pizzaSelection.appendChild(document.createElement("br"));
+  });
 }
 
-//price updater
-var selectedSize = "disabled";
-var priceChange = prices;
-sizeChoice.addEventListener("change", function (event) {
-  selectedSize = event.target.value;
-  //console.log(selectedSize);
+createMenu();
+
+function createExtraMenu() {
+  for (var i = 0; i < extras.length; i++) {
+    boxes = document.createElement("button");
+    //boxes.type = "checkbox";
+    listItems = document.createElement("li");
+    boxes.innerHTML = extras[i];
+    listItems.appendChild(boxes);
+    extrasMenu.append(listItems);
+  }
+}
+
+createExtraMenu();
+
+function createPriceLists() {
+  let priceArray = [];
+  const pizzaChoice = pizzaSelection.querySelectorAll('input[name="pizza"]');
+  pizzaChoice.forEach((input, index) => {
+    priceArray[index] = Number(input.nextSibling.nextSibling.textContent);
+  });
+  return priceArray;
+}
+
+let priceArray = createPriceLists();
+let small = priceArray.map((x) => x - 2);
+let large = priceArray.map((x) => x + 2);
+
+const radioContainer = document.getElementById("radioContainer");
+radioContainer.addEventListener("input", function (event) {
+  const selectedSize = event.target.id;
+
+  let adjustedPrices;
   switch (selectedSize) {
-    case "medium":
-      prices.innerHTML = "\u20ac" + mediumPrices;
-      priceChange = mediumPrices;
-      priceName = "Medium";
+    case "small":
+      adjustedPrices = small;
+      //console.log(adjustedPrices);
+      break;
+    case "med":
+      adjustedPrices = priceArray;
+      //console.log(adjustedPrices);
       break;
     case "large":
-      prices.innerHTML = "\u20ac" + largePrices;
-      priceChange = largePrices;
-      priceName = "Large";
-      break;
-    default:
-      prices.innerHTML = "\u20ac" + smallPrices;
-      priceChange = smallPrices;
-      priceName = "Small";
+      adjustedPrices = large;
+      //console.log(adjustedPrices);
       break;
   }
+  const newPrice = document.querySelectorAll(".priceList");
+  newPrice.forEach((span, index) => {
+    span.textContent = adjustedPrices[index];
+  });
 });
 
-//create the pizza
-function createPizza(pizzaName) {
-  const extraContainer = document.getElementById("extraContainer");
-  pizza = document.createElement("li");
+let selectedExtras = [];
 
-  pizza.textContent = priceName + " " + pizzaName;
-  console.log(pizza.textContent.length);
-  if (pizza.textContent.length < 1) {
-    extraContainer.addEventListener("click", (event) => {
-      const isButton = event.target.nodeName === "BUTTON";
-      if (!isButton) {
-        return;
-      }
-      //console.log(event.target.id);
-      else if (selectedSize === "disabled") {
-        alert("Please select a size");
-        return;
-      }
-  })
-  buildPizza.append(order);
+function createPizza() {
+  const selectedPizza = document.querySelector(`input[name="pizza"]:checked`);
+  buildPizza = document.getElementById("buildPizza");
+  buildPizza.innerHTML = "";
+
+  if (!selectedPizza) {
+    alert("Please select a pizza.");
+    return;
+  }
+
+  const selectedPizzaValue = selectedPizza.value;
+  const selectedPizzaLabel = pizzas.find(
+    (pizza) => pizza.value === selectedPizzaValue
+  ).label;
+  const selectedPizzaPrice = Number(
+    selectedPizza.nextSibling.nextSibling.textContent
+  );
+
+  const extrasTotal = selectedExtras.length;
+  const totalCost = selectedPizzaPrice + extrasTotal;
+
+  const pizzaPreview = document.createElement("li");
+  pizzaPreview.textContent = `${selectedPizzaLabel} - €${selectedPizzaPrice}
+   + ${selectedExtras.length} extra(s) (€${extrasTotal}) = €${totalCost}`;
+  buildPizza.appendChild(pizzaPreview);
 }
 
-function shoppingBasket() {}
-//price total
-pizzaContainer.addEventListener("click", (event) => {
-  const isButton = event.target.nodeName === "BUTTON";
-  if (!isButton) {
-    return;
-  }
-  //console.log(event.target.id);
-  else if (selectedSize === "disabled") {
-    alert("Please select a size");
-    return;
-  }
-  //if checked, open extras menu that's all buttons.
-  //console.log(priceChange);
-  /*either eventlistener to open extras menu on click, 
-  and new variable for extraprices, or redo first eventlistener.*/
-
-  total += priceChange;
-  createPizza(event.target.id);
-  price.innerHTML = "\u20ac" + total;
+pizzaSelection.addEventListener("change", function () {
+  selectedExtras = [];
+  updateExtrasDisplay();
+  createPizza();
 });
 
-var completeOrder = document.getElementById("order");
-completeOrder.addEventListener("click", orderValidation);
-
-function orderValidation() {
-  let listLenght = document
-    .getElementById("shoppingList")
-    .getElementsByTagName("li").length;
-  //console.log(listLenght);
-
-  if (listLenght === 0) {
-    alert("Please put at least one Pizza in the basket");
+function updateExtrasDisplay() {
+  const piz = document.getElementById("buildPizza");
+  if (!piz) {
+    console.error("buildPizza not found");
+    return;
   }
+  const extrasDisplay = document.createElement("li");
+  extrasDisplay.innerHTML = `Extras: ${selectedExtras.join(", ") || "None"}`;
+  piz.appendChild(extrasDisplay);
 }
-//make order button work and either make a popup or redirect to new page with full order and price
 
-//function summary() {}
+extrasMenu.addEventListener("click", (event) => {
+  const extra = event.target.innerHTML;
+  const selectedPizza = document.querySelector(`input[name="pizza"]:checked`);
+  if (!selectedPizza) {
+    alert("Please select a pizza before adding extras.");
+    return;
+  }
+
+  if (selectedExtras.includes(extra)) {
+    selectedExtras = selectedExtras.filter((e) => e !== extra);
+  } else {
+    selectedExtras.push(extra);
+  }
+
+  createPizza();
+  updateExtrasDisplay();
+});
+
+function addToOrders() {
+  ordersList = document.getElementById("orders");
+  const notes = document.getElementById("notes").value;
+
+  if (!buildPizza) {
+    alert("Please create a pizza before adding to the order.");
+    return;
+  }
+
+  const orderItem = buildPizza.firstChild;
+  const addedNote = document.createElement("li");
+  addedNote.textContent = orderItem.textContent;
+  if (notes) {
+    const noteText = document.createElement("span");
+    noteText.textContent = ` (Note: ${notes})`;
+    addedNote.appendChild(noteText);
+  }
+  ordersList.appendChild(addedNote);
+
+  const pizzaPrice = parseFloat(orderItem.textContent.split("€").pop());
+  total += pizzaPrice;
+  totalWithoutDelivery += pizzaPrice;
+  buildPizza.innerHTML = "";
+  document.getElementById("notes").value = "";
+  updateTotal();
+}
+
+delivery.addEventListener("change", addDelivery);
+
+function addDelivery(check) {
+  if (check.target.checked) {
+    total = totalWithoutDelivery + 2;
+    console.log(total);
+  } else {
+    total = totalWithoutDelivery;
+    console.log(total);
+  }
+  updateTotal();
+}
+
+document.getElementById("add").addEventListener("click", addToOrders);
+
+deliveryInfo.addEventListener("submit", function (event) {
+  event.preventDefault();
+  validateForm();
+});
+
+//orderButton.addEventListener("click", completeOrder);
+orderButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  if (!validateDeliveryAddress()) {
+    return;
+  }
+  completeOrder();
+});
+
+function validateForm() {
+  const phoneNumber = document.getElementById("phoneNumber").value;
+
+  if (phoneNumber && !phoneNumber.match(/^\d{4} \d{3} \d{4}$/)) {
+    alert("Please enter  phone number in the provided format: XXXX XXX XXXX");
+    return false;
+  }
+
+  console.log("Form validated successfully");
+  return true;
+}
+
+function validateDeliveryAddress() {
+  const delAddress = document.getElementById("delAddress").value;
+  const delCheck = document.getElementById("del").checked;
+
+  if (delCheck) {
+    if (delAddress === "" || delAddress.trim() === "") {
+      alert("You have selected delivery. Please enter a delivery address.");
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function updateTotal() {
+  document.getElementById("totalPrice").textContent = "Total: €" + total;
+}
+
+function completeOrder() {
+  const ordersList = document.getElementById("orders");
+  if (ordersList.children.length === 0) {
+    alert(
+      "Your order is empty. Please add some items before completing the order."
+    );
+    return;
+  }
+
+  alert(
+    `Thank you for your order! Your total is €${total}.
+    Your order will be ready soon.`
+  );
+
+  ordersList.innerHTML = "";
+  total = 0;
+  updateTotal();
+}

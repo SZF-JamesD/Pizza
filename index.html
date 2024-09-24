@@ -6,46 +6,54 @@
   </head>
 
   <body>
-    <div class="dropdown">
-      <select name="size" id="size">
-        <option value="disabled" id="dis" disabled hidden selected>
-          Select a size
-        </option>
-        <option value="small" id="small">Small</option>
-        <option value="medium" id="medium">Medium</option>
-        <option value="large" id="large">Large</option>
-      </select>
+        <!--New size input-->
+    <div id="radioContainer"> 
+      <input type="radio" id="small" class="sizebtn" name="sizeSelect" value="Small" >
+      <label for="small">Small -€2</label><br>    
+      <input type="radio" id="med" class="sizebtn" name="sizeSelect" value="Medium">
+      <label for="med">Medium</label><br>    
+      <input type="radio" id="large" class="sizebtn" name="sizeSelect" value="Large">
+      <label for="large">Large +€2</label>
     </div>
-    <div id="pizzaContainer">
-      <ul id="pizzaList">
-        <li>
-          <button id="Pepperoni" class="btn">Pepperoni</button>
-        </li>
-        <li><button id="Kebab" class="btn">Kebab</button></li>
-        <li><button id="Mushroom" class="btn">Mushroom</button></li>
-        <li><button id="Seafood" class="btn">Seafood</button></li>
-        <li><button id="Vegetarian" class="btn">Vegatarian</button></li>
-      </ul>
-      <p id="pizzaPrice"></p>
-      <h6>Total</h6>
-      <p id="price"></p>
-    </div>
-    <div id="extraContainer">
-      <span>€1 each</span><br />
+  
+    
+    <form id="pizzaSelection"></form>    
 
+      <h5>Extras - €1 each<h5><br />
       <ul id="extraMenu">
-        <!--<li>None<input type="checkbox" id="none" /></li>-->
       </ul>
     </div>
+  </div>
     <ul id="buildPizza"></ul>
-    <button id="add">Add to basket</button>
-    <ul id="shoppingBasket"></ul>
-    <ul id="summaryList"></ul>
     <textarea
       id="notes"
-      placeholder="Please enter any extra requests"
-    ></textarea>
+      placeholder="Please enter any special requests"
+    ></textarea><br>
+    
+    <button id="add">Add to basket</button>
+    
+    <div id="shoppingList">
+    
+      <ul id="orders"></ul>
+    <span id="totalPrice">
+    </span><br>
+
+    
+    <label for="del">Do you want delivery? (+€2)</label>
+    <input type ="checkbox" id ="del" value="del" name ="del"><br>
+    <h4> Delivery Info</h4>
+    <form id="delInfo">
+      <label for="phoneNumber">(Optional) Please enter your phone number: </label>
+      <input type ="tel" id="phoneNumber" name="phone" pattern="[0-9]{4} [0-9]{3} [0-9]{4}"><br>
+      <label for="delAddress">Please enter delivery address: </label>
+      <input type ="address" id="delAddress" name="address"><br>
+      <input type="submit">
+    </form>
+    
     <button id="order">Complete Order</button>
+    
+    </div>
+    
     <script src="script.js"></script>
   </body>
 </html>
